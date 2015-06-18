@@ -1,0 +1,72 @@
+class CollisionBox{
+	field int x;
+	field int y;
+	field int sizeX;
+	field int sizeY;
+	
+	constructor CollisionBox new(int a,int b,int c,int d){
+	let x = a;
+	let y = b;
+	let sizeX = c;
+	let sizeY = d;
+	
+	return this;
+	}
+	
+	method void dispose(){
+	do Memory.deAlloc(this);
+	return;
+	}
+	
+	method void setX(int i){
+		let x = i;
+		return;
+	
+	}
+	
+	method void setY(int i){
+		let y = i;
+		return;
+	
+	}
+	
+	method int get(int i){
+		if (i=1){
+			return x;
+		}	
+		if (i=2){
+			return y;
+		}	
+		if (i=3){
+			return sizeX;
+		}	
+		if (i=4){
+			return sizeY;
+		}	
+		else {
+			return 0;
+		}
+	}
+	
+	method boolean touches(CollisionBox cb){
+		
+		if (cb.get(1) < (x+sizeX)) {
+			if ((cb.get(1)+cb.get(3)) > x){
+				if (cb.get(2) < (y+sizeY)){
+					if ((cb.get(2)+cb.get(4)) > y){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	method void draw(){
+		do Screen.setColor(true);
+		do Screen.drawRectangle(x,y,x+sizeX,y+sizeY);
+		return;
+	}
+	
+}

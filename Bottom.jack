@@ -1,0 +1,21 @@
+class Bottom{
+
+	field int pos;
+	
+	constructor Bottom new(int Apos){
+		let pos = Apos;
+		do draw();
+		return this;
+	}
+	
+	method void draw(){
+		do Screen.setColor(true);
+		do Screen.drawRectangle(0,pos,511,pos+15);
+		return;
+	}
+	
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+}

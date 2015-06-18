@@ -1,0 +1,79 @@
+/* refreshes the Screen */
+class ScreenController{
+
+	field Jack j;
+	field Bottom b;
+	field Levels l;
+	field Block l1;
+	field Block l2;
+	field Block l3;
+	field Block l4;
+	field Block h1;
+	field Block h2;
+	field Block h3;
+	field Block h4;
+	
+	
+	constructor ScreenController new(Jack Aj, Bottom Ab, Levels Al, 
+										Block Al1, Block Al2, Block Al3, Block Al4, 
+										Block Ah1, Block Ah2, Block Ah3, Block Ah4){
+		let j = Aj;
+		let b = Ab;
+		let l = Al;
+		
+		let l1 = Al1;
+		let l2 = Al2;
+		let l3 = Al3;
+		let l4 = Al4;
+		let h1 = Ah1;
+		let h2 = Ah2;
+		let h3 = Ah3;
+		let h4 = Ah4;
+		
+		return this;
+
+	}
+
+	method void dispose(){
+	
+		do j.dispose();
+		do b.dispose();
+		do l.dispose();
+		do l1.dispose();
+		do l2.dispose();
+		do l3.dispose();
+		do l4.dispose();
+		do h1.dispose();
+		do h2.dispose();
+		do h3.dispose();
+		do h4.dispose();
+		
+		do Memory.deAlloc(this);
+		
+		return;
+		
+	}
+
+	method void refreshScreen(){
+	
+	do Screen.setColor(false);
+	do Screen.drawRectangle(0,0,511,199);
+	
+	do j.draw();
+	do l.showScore();
+	
+	do l1.draw();
+	do l2.draw();
+	do l3.draw();
+	do l4.draw();
+	do h1.draw();
+	do h2.draw();
+	do h3.draw();
+	do h4.draw();
+	do Sys.wait(5);
+	
+	return;
+	
+	}
+
+}

@@ -1,0 +1,354 @@
+class Levels{
+	field boolean win;
+	field boolean end;
+	field int counter;
+	field int ten;
+	field int level;
+	field int score;
+	field String s;
+	field String l;
+	field Block l1;
+	field Block l2;
+	field Block l3;
+	field Block l4;
+	
+	field Block h1;
+	field Block h2;
+	field Block h3;
+	field Block h4;
+
+	constructor Levels new(int ALevel){
+		
+		let l1 = Block.new(false);
+		let l2 = Block.new(false);
+		let l3 = Block.new(false);
+		let l4 = Block.new(false);
+
+		let h1 = Block.new(true);
+		let h2 = Block.new(true);
+		let h3 = Block.new(true);
+		let h4 = Block.new(true);
+		
+		let s = ("Score: ");
+		let l = ("Level: ");
+		
+		do Output.moveCursor(20,0);
+		do Output.printString(s);
+		do Output.println();
+		do Output.printString(l);
+		
+		let win=false;
+		let end=false;
+		let counter = 0;
+		let level = ALevel;
+		let score = 0;
+		return this;
+	}	
+	
+	method void dispose(){
+	
+		do l1.dispose();
+		do l2.dispose();
+		do l3.dispose();
+		do l4.dispose();
+		do h1.dispose();
+		do h2.dispose();
+		do h3.dispose();
+		do h4.dispose();
+		
+		do Memory.deAlloc(this);
+		
+		return;
+	}
+	
+	method void showScore(){
+		
+		
+		do Output.moveCursor(20,7);
+		do Output.printInt(score);
+		
+		do Output.moveCursor(21,7);
+		
+		do Output.printInt(level);
+		
+		return;
+	}
+	
+	method int getScore(){
+		return score;
+	}
+	
+	method Block getBlock(int i){
+		if (i=1){
+			return l1;
+		}
+		if (i=2){
+			return l2;
+		}
+		if (i=3){
+			return l3;
+		}
+		if (i=4){
+			return l4;
+		}
+		if (i=5){
+			return h1;
+		}
+		if (i=6){
+			return h2;
+		}
+		if (i=7){
+			return h3;
+		}
+		if (i=8){
+			return h4;
+		}
+		return null;
+	}
+	
+	method void step(){
+		do l1.step();
+		do l2.step();
+		do l3.step();
+		do l4.step();
+		
+		do h1.step();
+		do h2.step();
+		do h3.step();
+		do h4.step();
+		
+		let ten =  ten + 1;
+		if (ten > 10){
+			let counter = counter + 1;
+			let score = score + 1;
+			let ten = 0;
+		}
+		
+		if(level=1){
+		
+			if(counter=0){
+				do l4.run();
+			}
+			if(counter=10){
+				do l3.run();
+			}
+			
+			if(counter=20){
+				do l1.run();
+			}
+			if(counter=30){
+				do l2.run();
+			}
+			if(counter=40){
+				do h1.run();
+			}
+			if(counter=45){
+				do h2.run();
+			}
+			if(counter=60){
+				do h3.run();
+			}
+			if(counter=70){
+				do l3.run();
+			}
+			if(counter=72){
+				do l4.run();
+			}
+			if(counter=80){
+				do l1.run();
+			}
+			if(counter=90){
+				do h1.run();
+			}
+			if(counter=105){
+				do h2.run();
+			}
+			if(counter=120){
+				do h3.run();
+			}
+			if(counter=125){
+				do h4.run();
+			}
+			if(counter=140){
+				do l4.run();
+			}
+			if(counter=152){
+				do l1.run();
+			}
+			if(counter=210){
+				let win = true;
+			}
+			
+			
+		}
+		
+		if(level=2){
+		
+			if(counter=0){
+				do l1.run();
+			}
+			if(counter=10){
+				do l2.run();
+			}
+			
+			if(counter=18){
+				do h1.run();
+			}
+			if(counter=24){
+				do h2.run();
+			}
+			if(counter=33){
+				do l3.run();
+			}
+			if(counter=35){
+				do l4.run();
+			}
+			if(counter=45){
+				do h3.run();
+			}
+			if(counter=55){
+				do h4.run();
+			}
+			if(counter=62){
+				do l1.run();
+			}
+			if(counter=69){
+				do h1.run();
+			}
+			if(counter=78){
+				do l2.run();
+			}
+			if(counter=79){
+				do h2.run();
+			}
+			if(counter=90){
+				do h3.run();
+				do l3.run();
+			}
+			if(counter=109){
+				do l4.run();
+			}
+			if(counter=120){
+				do l1.run();
+			}
+			if(counter=126){
+				do h4.run();
+			}
+			if(counter=130){
+				do h1.run();
+			}
+			if(counter=133){
+				do h2.run();
+			}
+			if(counter=144){
+				do h3.run();
+			}
+			if(counter=160){
+				do l2.run();
+			}
+			if(counter=162){
+				do l3.run();
+			}
+			if(counter=210){
+				let win = true;
+			}
+		}
+		
+		if(level = 3){
+		
+			if(counter=0){
+				do h1.run();
+			}
+			if(counter=12){
+				do l1.run();
+				do h2.run();
+			}
+			if(counter=25){
+				do l2.run();
+			}
+			if(counter=37){
+				do l2.run();
+				do h3.run();
+			}
+			if(counter=45){
+				do l4.run();
+			}
+			if(counter=55){
+				do h4.run();
+			}
+			if(counter=59){
+				do h1.run();
+			}
+			if(counter=66){
+				do l1.run();
+			}
+			if(counter=75){
+				do h2.run();
+			}
+			if(counter=80){
+				do l2.run();
+			}
+			if(counter=90){
+				do l3.run();
+				do h3.run();
+			}
+			if(counter=98){
+				do l4.run();
+			}
+			if(counter=110){
+				do l1.run();
+			}
+			if(counter=118){
+				do h4.run();
+			}
+			if(counter=130){
+				do l2.run();
+			}
+			if(counter=139){
+				do l3.run();
+			}
+			if(counter=140){
+				do h1.run();
+			}
+			if(counter=150){
+				do l4.run();
+			}
+			if(counter=210){
+				let win = true;
+			}
+			
+		}
+		if(level = 4){
+			let end = true;
+		}
+		
+		return;
+	}
+	
+	method boolean getWin(){
+		return win;
+	}
+	method boolean getEnd(){
+		return end;
+	}
+	
+	method void level(int l){
+		let level = l;
+		let counter = 0;
+		let ten = 0;
+		let win = false;
+		return;
+	}
+	
+	method void nextLevel(){
+		do Output.moveCursor(20,7);
+		do Output.moveCursor(20,8);
+		do Output.moveCursor(20,9);
+		let win = 0;
+		let ten = 0;
+		let counter = 0;
+		let level = level + 1;
+		
+		return;
+	}
+}

@@ -1,0 +1,234 @@
+// This file is inspired by a part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// Original File name: projects/09/Square/Square.jack
+
+/**
+ * Implements a graphic Jack. A graphic jack has a screen location
+ * and a size. It also has methods for drawing, erasing, and moving on the 
+ * screen.
+ */
+class Jack {
+
+    // Location on the screen
+    field int x, y;
+
+    // The size of the square
+    field int size;
+    
+    field int rectangleParameter;
+    
+    field boolean jumpedUp;
+    field boolean jumpedDown;
+    field int j;
+	
+	field int halfSize;
+	
+	field boolean erased;
+	field boolean crouching;
+	
+	field int lLx;
+	field int lLy;
+	field int rLx;
+	field int rLy;
+	field boolean walk;
+	
+	field CollisionBox cb;
+	
+    /** Constructs a new Jack with a given location and size. */
+    constructor Jack new() {
+    
+        let x = 40;
+        let y = 169;
+        let size = 20;
+        let rectangleParameter = 20;
+        let lLx = 0;
+        let lLy = 0;
+        let rLx = 0;
+        let rLy = 0;
+        let walk = false;
+        let jumpedUp = true;
+        let jumpedDown = true;
+        let j = 0;
+        let halfSize = 10;
+		let erased = true;
+		let cb = CollisionBox.new(x,y-20,20,50);
+        do draw();
+
+        return this;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+    	do cb.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+    method void drawCommand() {
+    	
+    	do Screen.drawRectangle(x, y, x + 20, y + 20);
+        do Screen.drawCircle(x + 10, y - 10,10);
+        do Screen.drawLine(x+8, y + 20,x+10+lLx,y+30+lLy);
+        do Screen.drawLine(x+12, y + 20,x+10+rLx,y+30+rLy);
+        return;
+    }
+
+    /** Draws Jack on the screen. */
+    method void draw() {
+    	
+        do Screen.setColor(true);
+        if (~crouching){
+        	do drawCommand();
+        }
+        else{
+    		do Screen.drawCircle(x + 10, y + 20,10);
+        }
+        
+        return;
+    }
+
+
+    
+    
+    method void jump(){
+    	let jumpedUp = false;
+    	return;
+    }
+    
+    method boolean jumpedUp(){
+   		return jumpedUp;
+    }
+    
+    method boolean jumpedDown(){
+    	return jumpedDown;
+    }
+    
+    method void jumpUp() {
+    	
+        if (j < 80) {
+            let y = y - 2;
+            do cb.setY(y-20);
+            let j = j + 2;
+        }
+        else{
+        	let jumpedUp=true;
+        	let jumpedDown=false;
+        }
+        
+        return;
+    }
+    
+    method void jumpDown(){
+    	
+    	if (j > 1) {
+          	let y = y + 2;
+          	do cb.setY(y-20);
+        	let j = j - 2;
+        }
+        else{
+        	let jumpedDown=true;
+        }
+        
+    	return;
+    }
+
+    method void crouch() {
+        let erased = false;
+        let crouching = true;
+        do cb.setY(y+10);
+        return;
+    }
+    
+    method void clearCrouch(){
+    	let crouching = false;
+    	do cb.setY(y-20);
+    	return;
+    }
+    
+    method void moveLeft() {
+        if (x > 1) {
+            //do Screen.setColor(false);
+            //do drawCommand();
+            let x = x - 2;
+            //do Screen.setColor(true);
+            //do drawCommand();
+        }
+        return;
+    }
+
+    method boolean moveRight() {
+        if ((x + size) < 510) {
+            let x = x + 2;
+            return false;
+        }
+        return true;
+    }
+    
+    method void die() {
+       	while (y > 50) {
+       		do Screen.setColor(false);
+       		do drawCommand();
+       	
+        	let y = y - 2;
+        	let x = x + 1;
+        	
+        	do Screen.setColor(true);
+        	do drawCommand();
+        	
+        	do Sys.wait(4);
+        	
+         }
+            
+		while ((y+30) < 245){
+			do Screen.setColor(false);
+        	do drawCommand();
+        	
+			let y = y + 2;
+			
+			do Screen.setColor(true);
+        	do drawCommand();
+        	
+        	do Sys.wait(10);
+        }
+        
+        return;
+    }
+    
+    method void reset(){
+    	let x = 40;
+    	return;
+    }
+    
+    method CollisionBox getCB(){
+    	return cb;
+    }
+    
+    method void walk(){
+    if (~(walk)){
+    	if(lLx > -10){
+    		let lLx = lLx-1;
+    		let lLy = lLy-1;
+    		let rLx = rLx+1;
+    		let rLy = rLy;
+    	}
+    	else{
+    		let walk = true;
+    	}
+    }
+    if (walk){
+    	if(lLx < 10){
+    		let lLx = lLx+1;
+			let lLy = lLy+1;
+    		let rLx = rLx-1;
+    		let rLy = rLy;
+    	}
+    	else{
+    		let walk = false;
+    	}
+    }
+    	return;
+    }
+    
+    
+}

@@ -1,0 +1,149 @@
+
+class JackRunner {
+
+    // The Jack
+    field Jack jack;
+    field Bottom bottom;
+    field Levels levels;
+	field ScreenController sc;
+	field CollisionManager cm;
+	field int l;
+
+    field int direction; 
+
+    /** Constructs a new Square Game. */
+    constructor JackRunner new(int ALevel) {
+        let jack = Jack.new();
+        let bottom = Bottom.new(200);
+        let l = ALevel;
+        let levels = Levels.new(l);
+        
+       	let cm = CollisionManager.new(jack,
+        								levels.getBlock(1),
+        								levels.getBlock(2),
+        								levels.getBlock(3),
+        								levels.getBlock(4),
+        								levels.getBlock(5),
+        								levels.getBlock(6),
+        								levels.getBlock(7),
+        								levels.getBlock(8));
+        
+        let sc = ScreenController.new(jack,bottom,levels,
+        								levels.getBlock(1),
+        								levels.getBlock(2),
+        								levels.getBlock(3),
+        								levels.getBlock(4),
+        								levels.getBlock(5),
+        								levels.getBlock(6),
+        								levels.getBlock(7),
+        								levels.getBlock(8));
+        
+        let direction = 0;
+
+        return this;
+    }
+
+    /** Deallocates the object's memory. */
+    method void dispose() {
+    	do cm.dispose();
+        do jack.dispose();
+        do bottom.dispose();
+		do levels.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    /** Starts the game. Handles inputs from the user that control
+     *  the square's movement, direction and size. */
+    method int run() {
+        var char key;
+        var boolean exit;
+        var boolean jumpedUp;
+        var boolean jumpedDown;
+
+        let exit = false;
+
+		do levels.level(l); 
+		
+        while (~exit) {
+        	
+            if (key = 0) {
+                let key = Keyboard.keyPressed();
+                let direction = 0;
+            }
+            if (key = 81) {
+                let exit = true;
+            }
+
+            if (key = 131) {
+            	//jump
+            	let direction = 1;
+            }
+            if (key = 133) {
+                //crouch
+                let direction = 2;
+            }
+           
+            do moveJack();
+			do levels.step();
+			
+			let jumpedUp = jack.jumpedUp();
+			let jumpedDown = jack.jumpedDown();
+            if(~(jumpedUp)){
+            	do jack.jumpUp();
+            	}
+            if(~(jumpedDown)){
+            	do jack.jumpDown();
+            	}
+            do jack.walk();	
+            //refresh Screen	
+            do sc.refreshScreen();
+            
+            //check Collision
+            if (cm.checkCollision()){
+            	 do jack.die();
+            	 return levels.getScore();
+            }
+            
+            //check Win
+            if (levels.getWin()){
+            	if (jack.moveRight()){
+            		do levels.nextLevel();
+            		do jack.reset();
+            	}
+            }
+            
+            //check End
+            if (levels.getEnd()){
+            	let exit = true;
+            }
+            
+            
+        	let key = Keyboard.keyPressed();
+        	
+        }   
+        return levels.getScore();
+	}
+	
+    method void moveJack() {
+        if (direction = 1) {
+        	if (jack.jumpedUp()){
+            	if (jack.jumpedDown()){
+            		do jack.jump();
+            	}
+            }
+    	}
+        
+        
+        if (direction = 2) {
+            do jack.crouch();
+        }
+        else{
+        	do jack.clearCrouch();
+        	do jack.draw();
+        }
+
+        //do Sys.wait(5); // Delays the next movement.
+        return;
+    }
+}

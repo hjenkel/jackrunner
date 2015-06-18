@@ -1,0 +1,69 @@
+class Block{
+	
+	field boolean pos;
+	field boolean visable;
+	field int x;
+	field int y;
+	field CollisionBox cb;
+	
+	constructor Block new(boolean Apos){
+		let pos = Apos;
+		let visable = false;
+		let x = 501;
+		if (~(pos)){
+			let y = 189;
+		}
+		else{
+			let y = 167;
+		}
+		
+		let cb = CollisionBox.new(x,y,10,10);
+		
+		return this;
+			
+	}
+	
+	method void dispose(){
+		do cb.dispose();
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void draw(){
+		if (visable){
+			do Screen.setColor(true);
+			do Screen.drawRectangle(x,y,x+10,y+10);
+		}
+		return;
+	}
+	
+	method void run(){
+		do reset();
+		let visable = true;
+		return;
+	}
+	
+	method void step(){
+	if (visable){
+		if (x>1){
+			let x = x - 1;
+			do cb.setX(x);
+		}
+		else {
+			do reset();
+		}
+	}
+	return;
+	}
+	
+	method void reset(){
+		let visable = false;
+		let x = 501;
+		do cb.setX(x);
+		return;
+	}
+
+	method CollisionBox getCB(){
+    	return cb;
+    }
+}

@@ -1,0 +1,91 @@
+class StartScreen{
+	
+	field int x;
+	field int score;
+	field JackRunner jr;
+	
+	constructor StartScreen new(){
+		let score = 0;
+		do build();
+		return this;
+	}
+	
+	method void dispose(){
+		do Screen.clearScreen();
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void run(){
+		var boolean exit;
+		var char key;
+		let exit = false;
+		let key = 0;
+		
+		
+		while(~(exit)){
+            let key = Keyboard.keyPressed();
+            
+            
+            if (key = 81) {
+                let exit = true;
+            }
+            
+            if (key = 49) {
+            	do Screen.clearScreen();
+                let jr = JackRunner.new(1);
+                let score = jr.run();
+                do jr.dispose();
+                let key = 0;
+                do build();
+            }
+            
+            if (key = 50) {
+          		do Screen.clearScreen();
+                let jr = JackRunner.new(2);
+                let score = jr.run();
+                do jr.dispose();
+                let key = 0;
+                do build();
+                
+            }
+            
+            if (key = 51) {
+          		do Screen.clearScreen();
+                let jr = JackRunner.new(3);
+                let score = jr.run();
+                do jr.dispose();
+                let key = 0;
+                do build(); 
+            }
+            
+            
+		}
+	
+		return;
+	}
+	
+	method void build(){
+		do Screen.clearScreen();
+		
+		do Screen.drawRectangle(0,10,511,20);
+		
+		do Screen.drawRectangle(0,235,511,245);
+		
+		do Output.moveCursor(3,18);
+		do Output.printString("...a Hanno Jenkel game...");
+		
+		do Output.moveCursor(10,24);
+		do Output.printString("Jack Runner");
+		
+		do Output.moveCursor(13,24);
+		do Output.printString("Your Score: ");
+		do Output.printInt(score);
+		
+		do Output.moveCursor(20,10);
+		do Output.printString("Press key 1, 2 or 3 to start the level.");
+		
+		return;
+	}
+
+}

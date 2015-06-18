@@ -1,0 +1,81 @@
+class CollisionManager{
+
+	field CollisionBox cbJack;
+	field CollisionBox cb1;
+	field CollisionBox cb2;
+	field CollisionBox cb3;
+	field CollisionBox cb4;
+	field CollisionBox cb5;
+	field CollisionBox cb6;
+	field CollisionBox cb7;
+	field CollisionBox cb8;
+	
+	constructor CollisionManager new(Jack j,Block b1,
+											Block b2,
+											Block b3,
+											Block b4,
+											Block b5,
+											Block b6,
+											Block b7,
+											Block b8){
+		let cbJack = j.getCB();
+		let cb1 = b1.getCB();
+		let cb2 = b2.getCB();
+		let cb3 = b3.getCB();
+		let cb4 = b4.getCB();
+		let cb5 = b5.getCB();
+		let cb6 = b6.getCB();
+		let cb7 = b7.getCB();
+		let cb8 = b8.getCB();
+		
+		return this;
+	}
+	
+	method void dispose(){
+	
+		do cbJack.dispose();
+		do cb1.dispose();
+		do cb2.dispose();
+		do cb3.dispose();
+		do cb4.dispose();
+		do cb5.dispose();
+		do cb6.dispose();
+		do cb7.dispose();
+		do cb8.dispose();
+			
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method boolean checkCollision(){
+		if (cbJack.touches(cb1)){
+			return true;
+		}
+		if (cbJack.touches(cb2)){
+			return true;
+		}
+		if (cbJack.touches(cb3)){
+			return true;
+		}
+		if (cbJack.touches(cb4)){
+			return true;
+		}
+		if (cbJack.touches(cb5)){
+			return true;
+		}
+		if (cbJack.touches(cb6)){
+			return true;
+		}
+		if (cbJack.touches(cb7)){
+			return true;
+		}
+		if (cbJack.touches(cb8)){
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+	
+}
